@@ -47,14 +47,14 @@ PersonalityInsights-Java-build:
   hidden: [form, description]
 
 #Slack
-messaging:
-  service_id: slack
-  include: slack.yml
+#messaging:
+#  service_id: slack
+#  include: slack.yml
 
 #DevOps Insights
-dra:
-  service_id: draservicebroker
-  include: dra.yml
+#dra:
+#  service_id: draservicebroker
+#  include: dra.yml
 
 #Web IDE
 webide:
@@ -78,5 +78,5 @@ github:
     $ref: github.json
   service-category: githubpublic
   parameters:
-    PersonalityInsights-Java-repo_name: "PersonalityInsights-Java-{{name}}"
+    PersonalityInsights-Java-repo_name: "PersonalityInsights-Java-111"
     PersonalityInsights-Java-repo_url: https://github.com/iwinoto/PersonalityInsights-Java
