@@ -1,0 +1,82 @@
+---
+default_locale: en
+locales:
+  $ref: locales.yml
+name: "personality-insights-java toolchain"
+description: "With this toolchain, you use the Watson Personality Insights sample application.\n\nThe application is modified to show Cloud Foundry application instance and allow the user to kill an instance. This demonstrates platform auto-recovery capabilities."
+version: 0.1
+image: data:image/svg+xml;base64,$file(toolchain.svg,base64)
+icon: data:image/svg+xml;base64,$file(icon.svg,base64)
+required:
+ - deploy
+ - github
+
+# Github repos
+PersonalityInsights-Java-repo:
+  service_id: githubpublic
+  parameters:
+    repo_name: "{{github.parameters.PersonalityInsights-Java-repo_name}}"
+    repo_url: "{{github.parameters.PersonalityInsights-Java-repo_url}}"
+    type: clone
+    has_issues: false
+  hidden: [form, description]
+
+# Pipelines
+PersonalityInsights-Java-build:
+  service_id: pipeline
+  parameters:
+    name: "PersonalityInsights-Java-{{name}}"
+    ui-pipeline: true
+    configuration:
+      content: $file(PersonalityInsights-Java.pipeline.yml)
+      env:
+        UI_REPO: "PersonalityInsights-Java-repo"
+        DOMAIN: "{{deploy.parameters.domain}}"
+        CF_APP_NAME: "{{deploy.parameters.PersonalityInsights-Java-app-name}}"
+        DEV_SPACE_NAME: "{{deploy.parameters.dev-space}}"
+        DEV_ORG_NAME: "{{deploy.parameters.dev-organization}}"
+        DEV_REGION_ID: "{{deploy.parameters.dev-region}}"
+        QA_SPACE_NAME: "{{deploy.parameters.qa-space}}"
+        QA_ORG_NAME: "{{deploy.parameters.qa-organization}}"
+        QA_REGION_ID: "{{deploy.parameters.qa-region}}"
+        PROD_SPACE_NAME: "{{deploy.parameters.prod-space}}"
+        PROD_ORG_NAME: "{{deploy.parameters.prod-organization}}"
+        PROD_REGION_ID: "{{deploy.parameters.prod-region}}"
+      execute: true
+    services: ["PersonalityInsights-Java-repo"]
+  hidden: [form, description]
+
+#Slack
+messaging:
+  service_id: slack
+  include: slack.yml
+
+#DevOps Insights
+dra:
+  service_id: draservicebroker
+  include: dra.yml
+
+#Web IDE
+webide:
+  service_id: orion
+
+#Deployment
+deploy:
+  schema:
+    $ref: deploy.json
+  service-category: pipeline
+  parameters:
+    domain: mybluemix.net
+    dev-space: dev
+    qa-space: qa
+    prod-space: prod
+    PersonalityInsights-Java-app-name: "{{PersonalityInsights-Java-repo.parameters.repo_name}}"
+
+#Github
+github:
+  schema:
+    $ref: github.json
+  service-category: githubpublic
+  parameters:
+    PersonalityInsights-Java-repo_name: "PersonalityInsights-Java-{{name}}"
+    PersonalityInsights-Java-repo_url: https://github.com/iwinoto/PersonalityInsights-Java

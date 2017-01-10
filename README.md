@@ -13,6 +13,10 @@ Give it a try! Click the button below to fork into IBM DevOps Services and deplo
    [Sign up][sign_up] in Bluemix or use an existing account. Watson Services
    in Beta are free to use.
 
+   To set up this project as a Bluemix Toochain, clich the button below:
+
+   [![Deploy To Bluemix](https://console.ng.bluemix.net/devops/graphics/create_toolchain_button.png)](https://console.ng.bluemix.net/devops/setup/deploy/?repository=https%3A//github.com/iwinoto/PersonalityInsights-Java.git)
+
 2. Download and install the [Cloud-foundry CLI][cloud_foundry] tool.
 
 3. Edit the `manifest.yml` file and change the `<application-name>` to something unique.
